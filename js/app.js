@@ -28,6 +28,16 @@ document.addEventListener("DOMContentLoaded", () => {
     updateStatusPanel();  // déjà en place
     updateLogs();         // nouveau
 });
+import { startLiveLogs } from "./logsLive.js";
+
+document.addEventListener("DOMContentLoaded", () => {
+    const map = initMap();
+    if (!map) return;
+
+    updateStatusPanel();
+    updateLogs();
+    startLiveLogs();   // ← activation du streaming LIVE
+});
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("[APP] Initialisation…");
