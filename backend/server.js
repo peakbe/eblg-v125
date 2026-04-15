@@ -108,7 +108,10 @@ function generateDynamicFids() {
 // =========================
 app.get("/metar", async (req, res) => {
     const cached = getCache("metar");
-    if (cached) return res.json(cached);
+    if (cached) {
+        cached.fallback = false; // ← IMPORTANT
+        return res.json(cached);
+    }
 
     const data = await safeFetch(
         `https://api.checkwx.com/metar/EBLG/decoded?x-api-key=${process.env.CHECKWX_KEY}`
@@ -127,9 +130,7 @@ app.get("/metar", async (req, res) => {
         return res.json(fb);
     }
 
-    // Important pour ton frontend
-    data.fallback = false;
-
+    data.fallback = false; // ← IMPORTANT
     setCache("metar", data);
     res.json(data);
 });
@@ -139,7 +140,10 @@ app.get("/metar", async (req, res) => {
 // =========================
 app.get("/taf", async (req, res) => {
     const cached = getCache("taf");
-    if (cached) return res.json(cached);
+    if (cached) {
+        cached.fallback = false; // ← IMPORTANT
+        return res.json(cached);
+    }
 
     const data = await safeFetch(
         `https://api.checkwx.com/taf/EBLG/decoded?x-api-key=${process.env.CHECKWX_KEY}`
@@ -157,9 +161,7 @@ app.get("/taf", async (req, res) => {
         return res.json(fb);
     }
 
-    // Important pour ton frontend
-    data.fallback = false;
-
+    data.fallback = false; // ← IMPORTANT
     setCache("taf", data);
     res.json(data);
 });
